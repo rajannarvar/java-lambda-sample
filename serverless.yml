@@ -1,0 +1,74 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: aws-lambda-java-sample # NOTE: update this with your service name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+
+
+
+plugins:
+  - serverless-aws-documentation
+
+custom:
+  # You must have the documentation object
+  documentation:
+
+# you can overwrite defaults here
+#  stage: dev
+#  region: us-east-1
+
+# you can add statements to the Lambda function's IAM Role here
+provider:
+  name: aws
+  runtime: java8
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:*"
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/*"
+
+
+# you can add packaging information here
+package:
+  artifact: target/java-lambda-sample.jar
+
+functions:
+  getUser:
+    handler: com.serverless.GeUserHandler
+    events:
+      - http:
+          path: user
+          method: get
+          integration: lambda
+          request:
+            template:
+              application/json: '{ "name" : "$input.params(''user_name'')" }'
+          response:
+            headers:
+              Content-Type: "'text/html'"
+            template: $input.path('$')
+          documentation:
+            summary: Function to get a user to dynamodb
+            description: Function to get a user to dynamodb4
+  addUser:
+    handler: com.serverless.AddUserHandler::handleRequest
+    events:
+      - http:
+          path: user
+          method: post
+          documentation:
+            summary: Function to add a user to dynamodb, takes in a request body
+            description: Function to add a user to dynamodb, takes in a request body

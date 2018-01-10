@@ -14,7 +14,7 @@ import com.serverless.domain.UserInfo;
 import com.serverless.function.UserServiceImpl;
 import com.serverless.manager.DynamoDBManager;
 
-public class GeUserHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
+public class GetUserHandler implements RequestHandler<Map<String, Object>, ApiGatewayResponse> {
 
 	//private static final Logger LOG = Logger.ge
 	private static final UserServiceImpl userServiceImplInstance = UserServiceImpl.instance();

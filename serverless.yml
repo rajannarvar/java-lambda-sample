@@ -47,7 +47,7 @@ package:
 
 functions:
   getUser:
-    handler: com.serverless.GeUserHandler
+    handler: com.serverless.GetUserHandler
     events:
       - http:
           path: user
